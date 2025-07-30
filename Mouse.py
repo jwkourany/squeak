@@ -17,7 +17,10 @@ class Mouse:
         alive: bool = True,
         death_date: Optional[str] = None
     ):
-        self.mouse_id: str = mouse_id,
-        self.sex: str = sex,
-        self.dob: str = dob,
-        self.genotype: Optional
+        self.mouse_id: str = mouse_id
+        self.sex: str = sex
+        self.dob: str = dob
+        self.genotype: Optional[str] = genotype
+        self.notes: str = notes
+        self.alive: bool = alive
+        self.death_date: Optional[str] = death_date
