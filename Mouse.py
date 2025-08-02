@@ -42,37 +42,33 @@ class Mouse:
     def calculate_age_days(self) -> int:
         dob_date = datetime.strptime(self.dob, "%Y-%m-%d")
         return (datetime.now() - dob_date).days
-    
-    def format_age(self, mode: str ="days"):
+
+    def format_age(self, mode: str = "days"):
         total_days = self.calculate_age_days()
-        
-        years, remainder = divmod(total_days, 365) # Divides total number of days by 365 and returns remaining number of days
-        months, remainder = divmod(remainder, 30) # Divides remaining number of days from previous calculation by 30 and returns remaining number of days
-        weeks, days = divmod(remainder, 7) # Divides remaining number of days from previous calculation by 7 and returns remaining number of days
+        parts = []
         
         if mode == "days":
-            return f"{total_days} days"
+            parts.append(f"{total_days} day{'s' if total_days != 1 else ''}")
         elif mode == "weeks":
-            parts = []
-            if weeks: parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
-            if days: parts.append(f"{days} day{'s' if days != 1 else ''}")
-            return " ".join(parts) if parts else "0 days"
+            weeks, days = divmod(total_days, 7)
+            parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
+            parts.append(f"{days} day{'s' if days != 1 else ''}")
         elif mode == "months":
-            parts = []
-            if months: parts.append(f"{months} month{'s' if months != 1 else ''}")
-            if weeks: parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
-            if days: parts.append(f"{days} day{'s' if days != 1 else ''}")
-            return " ".join(parts) if parts else "0 days"
+            months, remainder = divmod(total_days, 30)
+            weeks, days = divmod(remainder, 7)
+            parts.append(f"{months} month{'s' if months != 1 else ''}")
+            parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
+            parts.append(f"{days} day{'s' if days != 1 else ''}")
         elif mode == "years":
-            parts = []
-            if years: parts.append(f"{years} year{'s' if years != 1 else ''}")
-            if months: parts.append(f"{months} month{'s' if months != 1 else ''}")
-            if weeks: parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
-            if days: parts.append(f"{days} day{'s' if days != 1 else ''}")
-            return " ".join(parts) if parts else "0 days"
-        else:
-            raise ValueError("Invalid mode. Use: days, weeks, months, years.")
-    
+            years, remainder = divmod(total_days, 365)
+            months, remainder = divmod(remainder, 30)
+            weeks, days = divmod(remainder, 7)
+            parts.append(f"{years} year{'s' if years != 1 else ''}")
+            parts.append(f"{months} month{'s' if months != 1 else ''}")
+            parts.append(f"{weeks} week{'s' if weeks != 1 else ''}")
+            parts.append(f"{days} day{'s' if days != 1 else ''}")
+        return " ".join(parts)
+            
     # ---------------------------
     # Injection Methods
     # ---------------------------
